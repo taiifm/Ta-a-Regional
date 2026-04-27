@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Taça Regional de Futsal</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #00C853;
+    --verde-escuro: #007B33;
+    --fundo: #0a0a0a;
+    --fundo2: #111111;
+    --fundo3: #1a1a1a;
+    --borda: rgba(255,255,255,0.07);
+    --texto: #f0f0f0;
+    --texto2: #888;
+    --destaque: #00C853;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--fundo); color:var(--texto); font-family:'Barlow', sans-serif; min-height:100vh; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--borda);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+    position: sticky; top:0; z-index:100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(10px);
+  }
+  .logo { font-family:'Bebas Neue', sans-serif; font-size:22px; letter-spacing:2px; color:var(--verde); }
+  .logo span { color: var(--texto); }
+  .ao-vivo-badge {
+    display:flex; align-items:center; gap:6px;
+    font-size:11px; font-weight:600; letter-spacing:1.5px;
+    color: var(--verde); text-transform:uppercase;
+  }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--verde); animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.3)} }
+
+  /* NAV TABS */
+  nav {
+    display:flex; gap:4px; padding:16px 24px 0;
+    border-bottom: 1px solid var(--borda);
+  }
+  .tab {
+    padding:10px 20px; font-size:13px; font-weight:600; letter-spacing:0.5px;
+    border:none; background:transparent; color:var(--texto2); cursor:pointer;
+    border-bottom: 2px solid transparent; transition: all 0.2s;
+    font-family:'Barlow', sans-serif; text-transform:uppercase;
+  }
+  .tab.active { color:var(--verde); border-bottom-color:var(--verde); }
+  .tab:hover { color:var(--texto); }
+
+  /* SECTIONS */
+  .section { display:none; padding:24px; max-width:900px; margin:0 auto; }
+  .section.active { display:block; }
+
+  /* AGENDA */
+  .dia-titulo {
+    font-family:'Bebas Neue', sans-serif; font-size:13px; letter-spacing:3px;
+    color:var(--texto2); text-transform:uppercase; margin:24px 0 10px;
+  }
+  .dia-titulo:first-child { margin-top:0; }
+
+  .jogo-card {
+    background:var(--fundo2); border:1px solid var(--borda);
+    border-radius:10px; padding:14px 20px; margin-bottom:8px;
+    display:grid; grid-template-columns:90px 1fr 90px;
+    align-items:center; gap:12px; transition: border-color 0.2s;
+  }
+  .jogo-card:hover { border-color: rgba(0,200,83,0.2); }
+  .jogo-card.ao-vivo { border-color: rgba(0,200,83,0.4); box-shadow: 0 0 16px rgba(0,200,83,0.08); }
+
+  .jogo-meta { font-size:12px; color:var(--texto2); }
+  .jogo-meta strong { display:block; font-size:11px; font-weight:600; letter-spacing:1px; color:var(--verde); text-transform:uppercase; }
+
+  .jogo-centro { display:flex; align-items:center; justify-content:center; gap:12px; }
+  .time-nome { font-size:15px; font-weight:600; text-align:center; flex:1; }
+  .placar-box {
+    display:flex; align-items:center; gap:8px;
+    font-family:'Bebas Neue', sans-serif; font-size:28px; color:var(--texto);
+  }
+  .placar-sep { font-size:16px; color:var(--texto2); }
+  .placar-pendente { font-size:14px; color:var(--texto2); letter-spacing:2px; font-family:'Barlow Condensed',sans-serif; }
+
+  .badge {
+    font-size:10px; font-weight:700; letter-spacing:1.5px;
+    padding:3px 8px; border-radius:4px; text-transform:uppercase;
+    display:inline-block; margin-bottom:4px;
+  }
+  .badge-vivo { background:rgba(0,200,83,0.15); color:var(--verde); }
+  .badge-fim { background:rgba(255,255,255,0.07); color:var(--texto2); }
+  .badge-prox { background:rgba(255,255,255,0.05); color:var(--texto2); }
+
+  .jogo-grupo { text-align:right; font-size:12px; color:var(--texto2); }
+
+  /* CLASSIFICAÇÃO */
+  .grupo-titulo {
+    font-family:'Bebas Neue', sans-serif; font-size:20px; letter-spacing:2px;
+    color:var(--verde); margin:28px 0 10px;
+  }
+  .grupo-titulo:first-child { margin-top:0; }
+
+  .classif-table { width:100%; border-collapse:collapse; }
+  .classif-table th {
+    font-size:11px; font-weight:600; letter-spacing:1px; color:var(--texto2);
+    text-transform:uppercase; text-align:center; padding:8px 10px;
+    border-bottom:1px solid var(--borda);
+  }
+  .classif-table th:nth-child(2) { text-align:left; }
+  .classif-table td {
+    padding:12px 10px; text-align:center;
+    border-bottom:1px solid var(--borda); font-size:14px;
+  }
+  .classif-table td:nth-child(2) { text-align:left; font-weight:600; }
+  .classif-table tr:last-child td { border-bottom:none; }
+  .classif-table tr:hover td { background:rgba(255,255,255,0.02); }
+  .pos-num {
+    width:28px; height:28px; border-radius:6px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-family:'Bebas Neue', sans-serif; font-size:16px; font-weight:400;
+  }
+  .pos-1 { background:rgba(0,200,83,0.15); color:var(--verde); }
+  .pos-2 { background:rgba(255,255,255,0.06); color:#aaa; }
+  .pos-3 { background:rgba(255,255,255,0.03); color:#666; }
+  .pts { font-family:'Bebas Neue', sans-serif; font-size:20px; color:var(--verde); }
+
+  /* CHAVEAMENTO */
+  .bracket-wrap { overflow-x:auto; padding-bottom:16px; }
+  .bracket { display:flex; gap:40px; padding:10px 0; min-width:600px; }
+  .round { display:flex; flex-direction:column; gap:0; flex:1; }
+  .round-label {
+    font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    color:var(--texto2); margin-bottom:16px; text-align:center;
+  }
+  .match-slot {
+    display:flex; flex-direction:column;
+    border:1px solid var(--borda); border-radius:8px; overflow:hidden;
+    background:var(--fundo2); margin-bottom:12px;
+  }
+  .match-time-row {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px; font-size:13px; font-weight:600;
+    border-bottom:1px solid var(--borda);
+  }
+  .match-time-row:last-child { border-bottom:none; }
+  .match-time-row.winner { background:rgba(0,200,83,0.08); color:var(--verde); }
+  .match-gols { font-family:'Bebas Neue', sans-serif; font-size:18px; }
+
+  /* LOADING */
+  .loading { text-align:center; padding:48px; color:var(--texto2); font-size:14px; }
+  .spinner {
+    width:28px; height:28px; border:2px solid var(--borda); border-top-color:var(--verde);
+    border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 12px;
+  }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  .atualizado { text-align:right; font-size:11px; color:var(--texto2); padding:8px 0 0; letter-spacing:0.5px; }
+
+  /* EMPTY */
+  .empty { text-align:center; padding:40px; color:var(--texto2); font-size:14px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Taça <span>Regional</span></div>
+  <div class="ao-vivo-badge">
+    <span class="dot"></span> Ao vivo
+  </div>
+</header>
+
+<nav>
+  <button class="tab active" onclick="showTab('agenda')">Agenda</button>
+  <button class="tab" onclick="showTab('classificacao')">Classificação</button>
+  <button class="tab" onclick="showTab('chaveamento')">Chaveamento</button>
+</nav>
+
+<!-- AGENDA -->
+<div id="agenda" class="section active">
+  <div id="agenda-content"><div class="loading"><div class="spinner"></div>Carregando jogos...</div></div>
+  <div class="atualizado" id="atualizado-agenda"></div>
+</div>
+
+<!-- CLASSIFICAÇÃO -->
+<div id="classificacao" class="section">
+  <div id="classif-content"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
+</div>
+
+<!-- CHAVEAMENTO -->
+<div id="chaveamento" class="section">
+  <div id="chave-content"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
+</div>
+
+<!-- ===================== SUPABASE CONFIG ===================== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ============================================================
+//  ATENÇÃO: substitua os valores abaixo após criar o Supabase
+// ============================================================
+const SUPABASE_URL = 'https://uxssbespxhjswdbkxjsg.supabase.com';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4c3NiZXNweGhqc3dkYmt4anNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMzY3NzMsImV4cCI6MjA5MjgxMjc3M30.Sc0wwQ-hv9ekC8F5icmk6A9YoxBvj2qEL30oYai7gT0';
+// ============================================================
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ---------- helpers ----------
+function fmtData(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('pt-BR', { weekday:'short', day:'2-digit', month:'2-digit' });
+}
+function fmtHora(h) { return h ? h.slice(0,5) : '--:--'; }
+function agora() { return new Date().toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'}); }
+
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById(id).classList.add('active');
+}
+
+// ---------- AGENDA ----------
+async function renderAgenda() {
+  const { data: jogos, error } = await sb.from('jogos').select('*').order('data').order('hora');
+  if (error) { document.getElementById('agenda-content').innerHTML = '<div class="empty">Erro ao carregar.</div>'; return; }
+
+  if (!jogos.length) { document.getElementById('agenda-content').innerHTML = '<div class="empty">Nenhum jogo cadastrado ainda.</div>'; return; }
+
+  let html = '';
+  let diaAtual = '';
+  jogos.forEach(j => {
+    if (j.data !== diaAtual) {
+      diaAtual = j.data;
+      html += `<div class="dia-titulo">${fmtData(j.data)}</div>`;
+    }
+    const badge = j.status === 'ao_vivo' ? '<span class="badge badge-vivo">Ao vivo</span>'
+                : j.status === 'encerrado' ? '<span class="badge badge-fim">Encerrado</span>'
+                : '<span class="badge badge-prox">Agendado</span>';
+    const placar = (j.status === 'encerrado' || j.status === 'ao_vivo')
+      ? `<span class="placar-box"><span>${j.gols_a ?? 0}</span><span class="placar-sep">×</span><span>${j.gols_b ?? 0}</span></span>`
+      : `<span class="placar-pendente">vs</span>`;
+    html += `
+    <div class="jogo-card ${j.status === 'ao_vivo' ? 'ao-vivo' : ''}">
+      <div class="jogo-meta">${badge}<br>${fmtHora(j.hora)}</div>
+      <div class="jogo-centro">
+        <span class="time-nome">${j.time_a}</span>
+        ${placar}
+        <span class="time-nome">${j.time_b}</span>
+      </div>
+      <div class="jogo-grupo">Grupo ${j.grupo}</div>
+    </div>`;
+  });
+
+  document.getElementById('agenda-content').innerHTML = html;
+  document.getElementById('atualizado-agenda').textContent = `Atualizado às ${agora()}`;
+}
+
+// ---------- CLASSIFICAÇÃO ----------
+async function renderClassif() {
+  const { data: jogos } = await sb.from('jogos').select('*').eq('status','encerrado');
+  if (!jogos) return;
+
+  const times = {};
+  jogos.forEach(j => {
+    [j.time_a, j.time_b].forEach(t => {
+      if (!times[t]) times[t] = { nome:t, grupo:j.grupo, pts:0, j:0, v:0, e:0, d:0, gp:0, gc:0 };
+    });
+    const ta = times[j.time_a], tb = times[j.time_b];
+    const ga = j.gols_a ?? 0, gb = j.gols_b ?? 0;
+    ta.j++; tb.j++; ta.gp += ga; ta.gc += gb; tb.gp += gb; tb.gc += ga;
+    if (ga > gb) { ta.pts+=3; ta.v++; tb.d++; }
+    else if (ga === gb) { ta.pts++; tb.pts++; ta.e++; tb.e++; }
+    else { tb.pts+=3; tb.v++; ta.d++; }
+  });
+
+  const grupos = {};
+  Object.values(times).forEach(t => {
+    if (!grupos[t.grupo]) grupos[t.grupo] = [];
+    grupos[t.grupo].push(t);
+  });
+  Object.values(grupos).forEach(g => g.sort((a,b) => b.pts-a.pts || (b.gp-b.gc)-(a.gp-a.gc)));
+
+  let html = '';
+  Object.entries(grupos).sort().forEach(([g, lista]) => {
+    html += `<div class="grupo-titulo">Grupo ${g}</div>
+    <table class="classif-table">
+      <thead><tr><th>#</th><th>Time</th><th>Pts</th><th>J</th><th>V</th><th>E</th><th>D</th><th>SG</th></tr></thead>
+      <tbody>`;
+    lista.forEach((t,i) => {
+      const cls = i===0 ? 'pos-1' : i===1 ? 'pos-2' : 'pos-3';
+      html += `<tr>
+        <td><span class="pos-num ${cls}">${i+1}</span></td>
+        <td>${t.nome}</td>
+        <td class="pts">${t.pts}</td>
+        <td>${t.j}</td><td>${t.v}</td><td>${t.e}</td><td>${t.d}</td>
+        <td style="color:${t.gp-t.gc>=0?'var(--verde)':'#e55'}">${t.gp-t.gc>0?'+':''}${t.gp-t.gc}</td>
+      </tr>`;
+    });
+    html += '</tbody></table>';
+  });
+  if (!html) html = '<div class="empty">Nenhum jogo encerrado ainda.</div>';
+  document.getElementById('classif-content').innerHTML = html;
+}
+
+// ---------- CHAVEAMENTO ----------
+async function renderChave() {
+  const { data: jogos } = await sb.from('jogos').select('*').eq('fase','eliminatoria').order('rodada').order('hora');
+  if (!jogos || !jogos.length) {
+    document.getElementById('chave-content').innerHTML = '<div class="empty">Fase eliminatória ainda não definida.</div>';
+    return;
+  }
+
+  const rodadas = {};
+  jogos.forEach(j => {
+    if (!rodadas[j.rodada]) rodadas[j.rodada] = [];
+    rodadas[j.rodada].push(j);
+  });
+
+  const nomes = { semifinal:'Semifinais', final:'Final', '3lugar':'3º Lugar' };
+  let html = '<div class="bracket-wrap"><div class="bracket">';
+  Object.entries(rodadas).forEach(([r, lista]) => {
+    html += `<div class="round"><div class="round-label">${nomes[r]||r}</div>`;
+    lista.forEach(j => {
+      const enc = j.status === 'encerrado';
+      const wA = enc && j.gols_a > j.gols_b;
+      const wB = enc && j.gols_b > j.gols_a;
+      html += `<div class="match-slot">
+        <div class="match-time-row ${wA?'winner':''}">
+          <span>${j.time_a || '?'}</span>
+          <span class="match-gols">${enc ? j.gols_a : '-'}</span>
+        </div>
+        <div class="match-time-row ${wB?'winner':''}">
+          <span>${j.time_b || '?'}</span>
+          <span class="match-gols">${enc ? j.gols_b : '-'}</span>
+        </div>
+      </div>`;
+    });
+    html += '</div>';
+  });
+  html += '</div></div>';
+  document.getElementById('chave-content').innerHTML = html;
+}
+
+// ---------- REALTIME ----------
+function setupRealtime() {
+  sb.channel('jogos-changes')
+    .on('postgres_changes', { event:'*', schema:'public', table:'jogos' }, () => {
+      renderAgenda();
+      renderClassif();
+      renderChave();
+    })
+    .subscribe();
+}
+
+// ---------- INIT ----------
+renderAgenda();
+renderClassif();
+renderChave();
+setupRealtime();
+</script>
+</body>
+</html>
