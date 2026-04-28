@@ -22,6 +22,7 @@ INSERT INTO times (nome, grupo) VALUES
 -- Tabela de jogos
 CREATE TABLE jogos (
   id SERIAL PRIMARY KEY,
+  esporte TEXT NOT NULL,
   time_a TEXT NOT NULL,
   time_b TEXT NOT NULL,
   gols_a INTEGER DEFAULT 0,
@@ -29,9 +30,9 @@ CREATE TABLE jogos (
   data DATE,
   hora TIME,
   grupo TEXT,
-  fase TEXT DEFAULT 'grupos',  -- 'grupos' ou 'eliminatoria'
-  rodada TEXT,                  -- 'semifinal', 'final', '3lugar'
-  status TEXT DEFAULT 'agendado' -- 'agendado', 'ao_vivo', 'encerrado'
+  fase TEXT DEFAULT 'grupos',
+  rodada TEXT,
+  status TEXT DEFAULT 'agendado'
 );
 
 -- Habilitar atualizações em tempo real (Realtime)
