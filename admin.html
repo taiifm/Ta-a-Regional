@@ -6,156 +6,79 @@
 <title>Admin — Taça Regional</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --verde:#00C853; --fundo:#0a0a0a; --fundo2:#111; --fundo3:#1a1a1a;
-    --borda:rgba(255,255,255,0.08); --texto:#f0f0f0; --texto2:#888;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--fundo); color:var(--texto); font-family:'Barlow',sans-serif; min-height:100vh; }
+  :root{--verde:#00C853;--fundo:#0a0a0a;--fundo2:#111;--fundo3:#1a1a1a;--borda:rgba(255,255,255,0.08);--texto:#f0f0f0;--texto2:#888;}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--fundo);color:var(--texto);font-family:'Barlow',sans-serif;min-height:100vh;}
 
-  /* LOGIN */
-  #login-screen {
-    min-height:100vh; display:flex; align-items:center; justify-content:center;
-  }
-  .login-box {
-    background:var(--fundo2); border:1px solid var(--borda); border-radius:16px;
-    padding:40px; width:340px; text-align:center;
-  }
-  .login-logo { font-family:'Bebas Neue',sans-serif; font-size:28px; color:var(--verde); letter-spacing:3px; margin-bottom:6px; }
-  .login-sub { font-size:12px; color:var(--texto2); letter-spacing:1px; text-transform:uppercase; margin-bottom:28px; }
-  .login-box input {
-    width:100%; background:var(--fundo3); border:1px solid var(--borda);
-    color:var(--texto); padding:12px 14px; border-radius:8px; font-size:14px;
-    margin-bottom:12px; font-family:'Barlow',sans-serif;
-    transition:border-color 0.2s;
-  }
-  .login-box input:focus { outline:none; border-color:var(--verde); }
-  .btn-entrar {
-    width:100%; padding:12px; background:var(--verde); color:#000;
-    font-weight:700; font-size:14px; letter-spacing:1px; border:none;
-    border-radius:8px; cursor:pointer; font-family:'Barlow',sans-serif;
-    text-transform:uppercase; transition:opacity 0.2s;
-  }
-  .btn-entrar:hover { opacity:0.85; }
-  .login-erro { color:#e55; font-size:12px; margin-top:8px; display:none; }
+  #login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;}
+  .login-box{background:var(--fundo2);border:1px solid var(--borda);border-radius:16px;padding:40px;width:340px;text-align:center;}
+  .login-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--verde);letter-spacing:3px;margin-bottom:6px;}
+  .login-sub{font-size:12px;color:var(--texto2);letter-spacing:1px;text-transform:uppercase;margin-bottom:28px;}
+  .login-box input{width:100%;background:var(--fundo3);border:1px solid var(--borda);color:var(--texto);padding:12px 14px;border-radius:8px;font-size:14px;margin-bottom:12px;font-family:'Barlow',sans-serif;transition:border-color .2s;}
+  .login-box input:focus{outline:none;border-color:var(--verde);}
+  .btn-entrar{width:100%;padding:12px;background:var(--verde);color:#000;font-weight:700;font-size:14px;letter-spacing:1px;border:none;border-radius:8px;cursor:pointer;font-family:'Barlow',sans-serif;text-transform:uppercase;}
+  .btn-entrar:hover{opacity:.85;}
+  .login-erro{color:#e55;font-size:12px;margin-top:8px;display:none;}
 
-  /* ADMIN APP */
-  #app { display:none; }
-  header {
-    border-bottom:1px solid var(--borda); padding:0 24px;
-    display:flex; align-items:center; justify-content:space-between;
-    height:56px; background:rgba(10,10,10,0.97); position:sticky; top:0; z-index:10;
-  }
-  .logo { font-family:'Bebas Neue',sans-serif; font-size:20px; color:var(--verde); letter-spacing:2px; }
-  .logo span { color:var(--texto); }
-  .btn-sair {
-    font-size:12px; color:var(--texto2); background:none; border:1px solid var(--borda);
-    padding:6px 14px; border-radius:6px; cursor:pointer; font-family:'Barlow',sans-serif;
-    transition:all 0.2s;
-  }
-  .btn-sair:hover { color:var(--texto); border-color:rgba(255,255,255,0.2); }
+  #app{display:none;}
+  header{border-bottom:1px solid var(--borda);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;background:rgba(10,10,10,.97);position:sticky;top:0;z-index:10;}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--verde);letter-spacing:2px;}
+  .logo span{color:var(--texto);}
+  .btn-sair{font-size:12px;color:var(--texto2);background:none;border:1px solid var(--borda);padding:6px 14px;border-radius:6px;cursor:pointer;font-family:'Barlow',sans-serif;transition:all .2s;}
+  .btn-sair:hover{color:var(--texto);}
 
-  main { padding:24px; max-width:960px; margin:0 auto; }
+  main{padding:24px;max-width:960px;margin:0 auto;}
+  .tabs{display:flex;gap:4px;margin-bottom:24px;border-bottom:1px solid var(--borda);}
+  .tab{padding:10px 20px;font-size:13px;font-weight:600;letter-spacing:.5px;border:none;background:transparent;color:var(--texto2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-family:'Barlow',sans-serif;text-transform:uppercase;}
+  .tab.active{color:var(--verde);border-bottom-color:var(--verde);}
+  .section{display:none;} .section.active{display:block;}
 
-  /* TABS */
-  .tabs { display:flex; gap:4px; margin-bottom:24px; border-bottom:1px solid var(--borda); }
-  .tab {
-    padding:10px 20px; font-size:13px; font-weight:600; letter-spacing:0.5px;
-    border:none; background:transparent; color:var(--texto2); cursor:pointer;
-    border-bottom:2px solid transparent; transition:all 0.2s;
-    font-family:'Barlow',sans-serif; text-transform:uppercase;
-  }
-  .tab.active { color:var(--verde); border-bottom-color:var(--verde); }
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--texto2);}
 
-  .section { display:none; } .section.active { display:block; }
+  .btn{padding:9px 18px;font-size:13px;font-weight:600;letter-spacing:.5px;border-radius:8px;cursor:pointer;font-family:'Barlow',sans-serif;text-transform:uppercase;border:none;transition:all .2s;}
+  .btn-primary{background:var(--verde);color:#000;}
+  .btn-primary:hover{opacity:.85;}
+  .btn-ghost{background:var(--fundo3);color:var(--texto);border:1px solid var(--borda);}
+  .btn-ghost:hover{border-color:rgba(255,255,255,.2);}
+  .btn-danger{background:rgba(229,85,85,.12);color:#e55;border:1px solid rgba(229,85,85,.2);}
+  .btn-sm{padding:6px 12px;font-size:12px;}
 
-  /* CARDS DE JOGO */
-  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; }
-  .section-title { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:1px; color:var(--texto2); }
+  .jogo-admin-card{background:var(--fundo2);border:1px solid var(--borda);border-radius:10px;padding:16px 20px;margin-bottom:10px;display:grid;grid-template-columns:1fr auto;align-items:center;gap:16px;}
+  .jogo-admin-card.ao-vivo{border-color:rgba(0,200,83,.4);}
+  .jogo-times-str{font-size:15px;font-weight:600;}
+  .jogo-meta-str{font-size:12px;color:var(--texto2);margin-top:3px;}
+  .tag{font-size:10px;font-weight:700;letter-spacing:1px;padding:2px 8px;border-radius:4px;text-transform:uppercase;display:inline-block;margin-bottom:4px;}
+  .tag-vivo{background:rgba(0,200,83,.15);color:var(--verde);}
+  .tag-fim{background:rgba(255,255,255,.06);color:var(--texto2);}
+  .tag-prox{background:rgba(255,255,255,.04);color:var(--texto2);}
+  .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end;}
 
-  .btn {
-    padding:9px 18px; font-size:13px; font-weight:600; letter-spacing:0.5px;
-    border-radius:8px; cursor:pointer; font-family:'Barlow',sans-serif;
-    text-transform:uppercase; border:none; transition:all 0.2s;
-  }
-  .btn-primary { background:var(--verde); color:#000; }
-  .btn-primary:hover { opacity:0.85; }
-  .btn-ghost { background:var(--fundo3); color:var(--texto); border:1px solid var(--borda); }
-  .btn-ghost:hover { border-color:rgba(255,255,255,0.2); }
-  .btn-danger { background:rgba(229,85,85,0.12); color:#e55; border:1px solid rgba(229,85,85,0.2); }
-  .btn-sm { padding:6px 12px; font-size:12px; }
+  .placar-inline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;}
+  .placar-inline input{width:52px;text-align:center;background:var(--fundo3);border:1px solid var(--borda);color:var(--texto);padding:7px;border-radius:6px;font-size:16px;font-family:'Bebas Neue',sans-serif;}
+  .placar-inline input:focus{outline:none;border-color:var(--verde);}
+  .placar-inline .sep{font-size:14px;color:var(--texto2);}
 
-  .jogo-admin-card {
-    background:var(--fundo2); border:1px solid var(--borda); border-radius:10px;
-    padding:16px 20px; margin-bottom:10px;
-    display:grid; grid-template-columns:1fr auto; align-items:center; gap:16px;
-  }
-  .jogo-admin-card.ao-vivo { border-color:rgba(0,200,83,0.4); }
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200;backdrop-filter:blur(4px);}
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--fundo2);border:1px solid var(--borda);border-radius:16px;padding:32px;width:min(480px,92vw);max-height:90vh;overflow-y:auto;}
+  .modal-title{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--verde);margin-bottom:20px;letter-spacing:1px;}
+  .form-row{margin-bottom:14px;}
+  .form-row label{display:block;font-size:11px;font-weight:600;color:var(--texto2);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+  .form-row input,.form-row select{width:100%;background:var(--fundo3);border:1px solid var(--borda);color:var(--texto);padding:10px 14px;border-radius:8px;font-size:14px;font-family:'Barlow',sans-serif;transition:border-color .2s;}
+  .form-row input:focus,.form-row select:focus{outline:none;border-color:var(--verde);}
+  .form-row select option{background:var(--fundo3);}
+  .form-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;}
+  .msg{font-size:13px;color:var(--verde);margin-top:8px;min-height:20px;}
 
-  .jogo-info-row { display:flex; align-items:center; gap:12px; }
-  .jogo-times-str { font-size:15px; font-weight:600; }
-  .jogo-meta-str { font-size:12px; color:var(--texto2); }
-  .tag {
-    font-size:10px; font-weight:700; letter-spacing:1px; padding:2px 8px;
-    border-radius:4px; text-transform:uppercase;
-  }
-  .tag-vivo { background:rgba(0,200,83,0.15); color:var(--verde); }
-  .tag-fim { background:rgba(255,255,255,0.06); color:var(--texto2); }
-  .tag-prox { background:rgba(255,255,255,0.04); color:var(--texto2); }
-
-  .actions { display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
-
-  /* PLACAR INLINE */
-  .placar-inline {
-    display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-  }
-  .placar-inline input {
-    width:52px; text-align:center; background:var(--fundo3);
-    border:1px solid var(--borda); color:var(--texto);
-    padding:7px; border-radius:6px; font-size:16px; font-family:'Bebas Neue',sans-serif;
-    transition:border-color 0.2s;
-  }
-  .placar-inline input:focus { outline:none; border-color:var(--verde); }
-  .placar-inline .sep { font-size:14px; color:var(--texto2); }
-
-  /* MODAL NOVO JOGO */
-  .modal-overlay {
-    position:fixed; inset:0; background:rgba(0,0,0,0.7);
-    display:none; align-items:center; justify-content:center; z-index:200;
-    backdrop-filter:blur(4px);
-  }
-  .modal-overlay.open { display:flex; }
-  .modal {
-    background:var(--fundo2); border:1px solid var(--borda);
-    border-radius:16px; padding:32px; width:min(480px,92vw);
-    max-height:90vh; overflow-y:auto;
-  }
-  .modal-title { font-family:'Bebas Neue',sans-serif; font-size:22px; color:var(--verde); margin-bottom:20px; letter-spacing:1px; }
-  .form-row { margin-bottom:14px; }
-  .form-row label { display:block; font-size:11px; font-weight:600; color:var(--texto2); letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; }
-  .form-row input, .form-row select {
-    width:100%; background:var(--fundo3); border:1px solid var(--borda);
-    color:var(--texto); padding:10px 14px; border-radius:8px; font-size:14px;
-    font-family:'Barlow',sans-serif; transition:border-color 0.2s;
-  }
-  .form-row input:focus, .form-row select:focus { outline:none; border-color:var(--verde); }
-  .form-row select option { background:var(--fundo3); }
-  .form-2col { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .modal-actions { display:flex; gap:10px; margin-top:20px; }
-  .msg { font-size:13px; color:var(--verde); margin-top:8px; min-height:20px; }
-
-  /* LOADING */
-  .loading { text-align:center; padding:40px; color:var(--texto2); font-size:14px; }
-  .spinner {
-    width:24px; height:24px; border:2px solid var(--borda); border-top-color:var(--verde);
-    border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 10px;
-  }
-  @keyframes spin { to{transform:rotate(360deg)} }
+  .loading{text-align:center;padding:40px;color:var(--texto2);font-size:14px;}
+  .spinner{width:24px;height:24px;border:2px solid var(--borda);border-top-color:var(--verde);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 10px;}
+  @keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">Taça Regional</div>
@@ -167,73 +90,67 @@
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <header>
     <div class="logo">Admin · <span>Taça Regional</span></div>
     <button class="btn-sair" onclick="sair()">Sair</button>
   </header>
-
   <main>
     <div class="tabs">
-      <button class="tab active" onclick="showTab('jogos')">Jogos</button>
-      <button class="tab" onclick="showTab('times')">Times & Grupos</button>
+      <button class="tab active" onclick="showTab('jogos',this)">Jogos</button>
+      <button class="tab" onclick="showTab('times',this)">Times & Grupos</button>
     </div>
 
-    <!-- JOGOS -->
     <div id="jogos" class="section active">
       <div class="section-header">
         <span class="section-title">Gerenciar Jogos</span>
         <button class="btn btn-primary" onclick="abrirModal()">+ Novo Jogo</button>
       </div>
+      <!-- Filtro por esporte -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <button class="btn btn-ghost btn-sm active-filter" id="filtro-todos" onclick="filtrarEsporte('todos',this)">Todos</button>
+        <button class="btn btn-ghost btn-sm" onclick="filtrarEsporte('futsal',this)">⚽ Futsal</button>
+        <button class="btn btn-ghost btn-sm" onclick="filtrarEsporte('fifa',this)">🎮 FIFA</button>
+        <button class="btn btn-ghost btn-sm" onclick="filtrarEsporte('truco',this)">🃏 Truco</button>
+      </div>
       <div id="jogos-list"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
     </div>
 
-    <!-- TIMES -->
     <div id="times" class="section">
-      <div class="section-header">
-        <span class="section-title">Times Cadastrados</span>
-      </div>
+      <div class="section-header"><span class="section-title">Times Cadastrados</span></div>
       <div id="times-list"><div class="loading"><div class="spinner"></div>Carregando...</div></div>
     </div>
   </main>
 </div>
 
-<!-- MODAL NOVO JOGO -->
+<!-- MODAL -->
 <div class="modal-overlay" id="modal">
   <div class="modal">
-    <div class="modal-title" id="modal-titulo">Novo Jogo</div>
-    <div class="form-2col">
-      <div class="form-row">
-        <label>Time A</label>
-        <select id="f-time-a"></select>
-      </div>
-      <div class="form-row">
-        <label>Time B</label>
-        <select id="f-time-b"></select>
-      </div>
+    <div class="modal-title">Novo Jogo</div>
+    <div class="form-row">
+      <label>Esporte</label>
+      <select id="f-esporte">
+        <option value="futsal">⚽ Futsal</option>
+        <option value="fifa">🎮 FIFA</option>
+        <option value="truco">🃏 Truco</option>
+      </select>
     </div>
     <div class="form-2col">
-      <div class="form-row">
-        <label>Data</label>
-        <input type="date" id="f-data">
-      </div>
-      <div class="form-row">
-        <label>Horário</label>
-        <input type="time" id="f-hora">
-      </div>
+      <div class="form-row"><label>Time A</label><select id="f-time-a"></select></div>
+      <div class="form-row"><label>Time B</label><select id="f-time-b"></select></div>
+    </div>
+    <div class="form-2col">
+      <div class="form-row"><label>Data</label><input type="date" id="f-data"></div>
+      <div class="form-row"><label>Horário</label><input type="time" id="f-hora"></div>
     </div>
     <div class="form-2col">
       <div class="form-row">
         <label>Grupo</label>
-        <select id="f-grupo">
-          <option value="A">Grupo A</option>
-          <option value="B">Grupo B</option>
-        </select>
+        <select id="f-grupo"><option value="A">Grupo A</option><option value="B">Grupo B</option></select>
       </div>
       <div class="form-row">
         <label>Fase</label>
-        <select id="f-fase">
+        <select id="f-fase" onchange="toggleRodada()">
           <option value="grupos">Fase de Grupos</option>
           <option value="eliminatoria">Eliminatória</option>
         </select>
@@ -257,185 +174,155 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-// ============================================================
-//  ATENÇÃO: mesmo URL e KEY do index.html
-// ============================================================
 const SUPABASE_URL = 'https://uxssbespxhjswdbkxjsg.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV4c3NiZXNweGhqc3dkYmt4anNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMzY3NzMsImV4cCI6MjA5MjgxMjc3M30.Sc0wwQ-hv9ekC8F5icmk6A9YoxBvj2qEL30oYai7gT0';
-// ============================================================
-
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ---- CREDENCIAIS DOS ORGANIZADORES (simples, sem servidor) ----
-// Adicione ou altere usuários/senhas aqui:
+// ---- CREDENCIAIS ----
 const USUARIOS = {
-  'taissa': 'taissa.27',
-  'rafael': 'rafael.15',
+  'taissa': '22022022',
+  'rafael': '22022022',
 };
-// ---------------------------------------------------------------
+// ---------------------
 
-let editandoId = null;
+let filtroAtivo = 'todos';
+let todosJogos = [];
 
-// ---------- LOGIN ----------
 function fazerLogin() {
   const u = document.getElementById('login-user').value.trim();
   const p = document.getElementById('login-pass').value;
-  if (USUARIOS[u] && USUARIOS[u] === p) {
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
-    carregarJogos();
-    carregarTimes();
+  if(USUARIOS[u] && USUARIOS[u]===p) {
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    carregarJogos(); carregarTimes();
   } else {
-    document.getElementById('login-erro').style.display = 'block';
+    document.getElementById('login-erro').style.display='block';
   }
 }
-document.getElementById('login-pass').addEventListener('keydown', e => { if(e.key==='Enter') fazerLogin(); });
-function sair() { location.reload(); }
+document.getElementById('login-pass').addEventListener('keydown',e=>{if(e.key==='Enter')fazerLogin();});
+function sair(){location.reload();}
 
-// ---------- TABS ----------
-function showTab(id) {
+function showTab(id, btn) {
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  event.target.classList.add('active');
+  btn.classList.add('active');
   document.getElementById(id).classList.add('active');
 }
 
-// ---------- TIMES ----------
-const TIMES_PADRAO = [
-  {nome:'Time A1', grupo:'A'},{nome:'Time A2', grupo:'A'},{nome:'Time A3', grupo:'A'},
-  {nome:'Time B1', grupo:'B'},{nome:'Time B2', grupo:'B'},{nome:'Time B3', grupo:'B'},
-];
+function filtrarEsporte(esp, btn) {
+  document.querySelectorAll('.active-filter').forEach(b=>b.classList.remove('active-filter'));
+  btn.classList.add('active-filter');
+  btn.style.borderColor = 'var(--verde)';
+  filtroAtivo = esp;
+  renderJogos();
+}
 
 async function carregarTimes() {
-  const { data } = await sb.from('times').select('*').order('grupo').order('nome');
-  const lista = data || [];
-  const sel_a = document.getElementById('f-time-a');
-  const sel_b = document.getElementById('f-time-b');
-  sel_a.innerHTML = ''; sel_b.innerHTML = '';
-  lista.forEach(t => {
-    [sel_a,sel_b].forEach(s => { const o=document.createElement('option'); o.value=t.nome; o.textContent=`${t.nome} (${t.grupo})`; s.appendChild(o); });
+  const {data}=await sb.from('times').select('*').order('grupo').order('nome');
+  const lista=data||[];
+  ['f-time-a','f-time-b'].forEach(id=>{
+    const sel=document.getElementById(id); sel.innerHTML='';
+    lista.forEach(t=>{const o=document.createElement('option');o.value=t.nome;o.textContent=`${t.nome} (${t.grupo})`;sel.appendChild(o);});
   });
-
-  let html = '';
-  ['A','B'].forEach(g => {
-    const gt = lista.filter(t=>t.grupo===g);
-    html += `<div style="margin-bottom:24px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--verde);margin-bottom:10px;letter-spacing:1px">Grupo ${g}</div>`;
-    gt.forEach(t => {
-      html += `<div style="background:var(--fundo2);border:1px solid var(--borda);border-radius:8px;padding:12px 16px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
+  let html='';
+  ['A','B'].forEach(g=>{
+    const gt=lista.filter(t=>t.grupo===g);
+    html+=`<div style="margin-bottom:24px"><div style="font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--verde);margin-bottom:10px;letter-spacing:1px">Grupo ${g}</div>`;
+    gt.forEach(t=>{
+      html+=`<div style="background:var(--fundo2);border:1px solid var(--borda);border-radius:8px;padding:12px 16px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;">
         <span style="font-weight:600">${t.nome}</span>
-        <button class="btn btn-ghost btn-sm" onclick="editarTime(${t.id}, '${t.nome}')">Renomear</button>
+        <button class="btn btn-ghost btn-sm" onclick="editarTime(${t.id},'${t.nome}')">Renomear</button>
       </div>`;
     });
-    html += '</div>';
+    html+='</div>';
   });
-  document.getElementById('times-list').innerHTML = html || '<div style="color:var(--texto2);padding:20px">Nenhum time encontrado.</div>';
+  document.getElementById('times-list').innerHTML=html||'<div style="color:var(--texto2);padding:20px">Nenhum time encontrado.</div>';
 }
 
 async function editarTime(id, nomeAtual) {
-  const novo = prompt('Novo nome para o time:', nomeAtual);
-  if (!novo || novo === nomeAtual) return;
-  await sb.from('times').update({nome: novo}).eq('id', id);
-  carregarTimes();
-  carregarJogos();
+  const novo=prompt('Novo nome para o time:',nomeAtual);
+  if(!novo||novo===nomeAtual) return;
+  await sb.from('times').update({nome:novo}).eq('id',id);
+  carregarTimes(); carregarJogos();
 }
 
-// ---------- JOGOS ----------
 async function carregarJogos() {
-  const { data } = await sb.from('jogos').select('*').order('data').order('hora');
-  const jogos = data || [];
-  if (!jogos.length) {
-    document.getElementById('jogos-list').innerHTML = '<div style="color:var(--texto2);padding:20px;text-align:center">Nenhum jogo cadastrado. Clique em + Novo Jogo.</div>';
+  const {data}=await sb.from('jogos').select('*').order('data').order('hora');
+  todosJogos=data||[];
+  renderJogos();
+}
+
+function renderJogos() {
+  const jogos = filtroAtivo==='todos' ? todosJogos : todosJogos.filter(j=>j.esporte===filtroAtivo);
+  if(!jogos.length){
+    document.getElementById('jogos-list').innerHTML='<div style="color:var(--texto2);padding:20px;text-align:center">Nenhum jogo encontrado. Clique em + Novo Jogo.</div>';
     return;
   }
-  let html = '';
-  jogos.forEach(j => {
-    const tag = j.status==='ao_vivo' ? '<span class="tag tag-vivo">Ao vivo</span>'
-              : j.status==='encerrado' ? '<span class="tag tag-fim">Encerrado</span>'
-              : '<span class="tag tag-prox">Agendado</span>';
-    const data_br = j.data ? new Date(j.data+'T00:00:00').toLocaleDateString('pt-BR') : '-';
-    const placarStr = (j.status==='encerrado'||j.status==='ao_vivo') ? `${j.gols_a}×${j.gols_b}` : 'vs';
-    html += `<div class="jogo-admin-card ${j.status==='ao_vivo'?'ao-vivo':''}">
+  const icones={futsal:'⚽',fifa:'🎮',truco:'🃏'};
+  let html='';
+  jogos.forEach(j=>{
+    const tag=j.status==='ao_vivo'?'<span class="tag tag-vivo">Ao vivo</span>'
+             :j.status==='encerrado'?'<span class="tag tag-fim">Encerrado</span>'
+             :'<span class="tag tag-prox">Agendado</span>';
+    const data_br=j.data?new Date(j.data+'T00:00:00').toLocaleDateString('pt-BR'):'-';
+    const placarStr=(j.status==='encerrado'||j.status==='ao_vivo')?`${j.gols_a}×${j.gols_b}`:'vs';
+    html+=`<div class="jogo-admin-card ${j.status==='ao_vivo'?'ao-vivo':''}">
       <div>
-        <div class="jogo-info-row" style="margin-bottom:4px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
           ${tag}
+          <span style="font-size:13px">${icones[j.esporte]||''}</span>
           <span class="jogo-times-str">${j.time_a} ${placarStr} ${j.time_b}</span>
         </div>
-        <div class="jogo-meta-str">Grupo ${j.grupo} · ${data_br} · ${(j.hora||'').slice(0,5)}</div>
-        <div id="placar-form-${j.id}" style="margin-top:10px;display:none">
+        <div class="jogo-meta-str">Grupo ${j.grupo||'-'} · ${data_br} · ${(j.hora||'').slice(0,5)}</div>
+        <div id="placar-form-${j.id}" style="display:none">
           <div class="placar-inline">
-            <input type="number" min="0" max="99" value="${j.gols_a??0}" id="ga-${j.id}" placeholder="0">
+            <input type="number" min="0" max="99" value="${j.gols_a??0}" id="ga-${j.id}">
             <span class="sep">×</span>
-            <input type="number" min="0" max="99" value="${j.gols_b??0}" id="gb-${j.id}" placeholder="0">
+            <input type="number" min="0" max="99" value="${j.gols_b??0}" id="gb-${j.id}">
             <button class="btn btn-primary btn-sm" onclick="salvarPlacar(${j.id})">Salvar</button>
             <button class="btn btn-ghost btn-sm" onclick="togglePlacar(${j.id})">Cancelar</button>
           </div>
         </div>
       </div>
       <div class="actions">
-        ${j.status!=='encerrado' ? `<button class="btn btn-ghost btn-sm" onclick="mudarStatus(${j.id},'ao_vivo')" ${j.status==='ao_vivo'?'style="opacity:.4;cursor:default"':''}>▶ Iniciar</button>` : ''}
+        ${j.status!=='encerrado'?`<button class="btn btn-ghost btn-sm" onclick="mudarStatus(${j.id},'ao_vivo')" ${j.status==='ao_vivo'?'disabled':''}>▶ Iniciar</button>`:''}
         <button class="btn btn-ghost btn-sm" onclick="togglePlacar(${j.id})">Placar</button>
-        ${j.status!=='encerrado' ? `<button class="btn btn-primary btn-sm" onclick="mudarStatus(${j.id},'encerrado')">✓ Encerrar</button>` : ''}
+        ${j.status!=='encerrado'?`<button class="btn btn-primary btn-sm" onclick="mudarStatus(${j.id},'encerrado')">✓ Encerrar</button>`:''}
         <button class="btn btn-danger btn-sm" onclick="deletarJogo(${j.id})">✕</button>
       </div>
     </div>`;
   });
-  document.getElementById('jogos-list').innerHTML = html;
+  document.getElementById('jogos-list').innerHTML=html;
 }
 
-function togglePlacar(id) {
-  const el = document.getElementById(`placar-form-${id}`);
-  el.style.display = el.style.display === 'none' ? 'block' : 'none';
-}
-
-async function salvarPlacar(id) {
-  const ga = parseInt(document.getElementById(`ga-${id}`).value) || 0;
-  const gb = parseInt(document.getElementById(`gb-${id}`).value) || 0;
-  await sb.from('jogos').update({gols_a:ga, gols_b:gb}).eq('id',id);
+function togglePlacar(id){const el=document.getElementById(`placar-form-${id}`);el.style.display=el.style.display==='none'?'block':'none';}
+async function salvarPlacar(id){
+  const ga=parseInt(document.getElementById(`ga-${id}`).value)||0;
+  const gb=parseInt(document.getElementById(`gb-${id}`).value)||0;
+  await sb.from('jogos').update({gols_a:ga,gols_b:gb}).eq('id',id);
   carregarJogos();
 }
+async function mudarStatus(id,status){await sb.from('jogos').update({status}).eq('id',id);carregarJogos();}
+async function deletarJogo(id){if(!confirm('Excluir este jogo?'))return;await sb.from('jogos').delete().eq('id',id);carregarJogos();}
 
-async function mudarStatus(id, status) {
-  await sb.from('jogos').update({status}).eq('id',id);
-  carregarJogos();
-}
+function toggleRodada(){document.getElementById('f-rodada-row').style.display=document.getElementById('f-fase').value==='eliminatoria'?'block':'none';}
+function abrirModal(){document.getElementById('modal-msg').textContent='';document.getElementById('f-data').value='';document.getElementById('f-hora').value='';document.getElementById('modal').classList.add('open');}
+function fecharModal(){document.getElementById('modal').classList.remove('open');}
 
-async function deletarJogo(id) {
-  if (!confirm('Excluir este jogo?')) return;
-  await sb.from('jogos').delete().eq('id',id);
-  carregarJogos();
-}
-
-// ---------- MODAL ----------
-document.getElementById('f-fase').addEventListener('change', function() {
-  document.getElementById('f-rodada-row').style.display = this.value==='eliminatoria' ? 'block' : 'none';
-});
-
-function abrirModal() {
-  editandoId = null;
-  document.getElementById('modal-titulo').textContent = 'Novo Jogo';
-  document.getElementById('f-data').value = '';
-  document.getElementById('f-hora').value = '';
-  document.getElementById('modal-msg').textContent = '';
-  document.getElementById('modal').classList.add('open');
-}
-function fecharModal() { document.getElementById('modal').classList.remove('open'); }
-
-async function salvarJogo() {
-  const ta = document.getElementById('f-time-a').value;
-  const tb = document.getElementById('f-time-b').value;
-  const data = document.getElementById('f-data').value;
-  const hora = document.getElementById('f-hora').value;
-  const grupo = document.getElementById('f-grupo').value;
-  const fase = document.getElementById('f-fase').value;
-  const rodada = fase==='eliminatoria' ? document.getElementById('f-rodada').value : null;
-  if (!ta || !tb || !data || !hora) { document.getElementById('modal-msg').textContent = 'Preencha todos os campos.'; return; }
-  if (ta === tb) { document.getElementById('modal-msg').textContent = 'Os times devem ser diferentes.'; return; }
-  const payload = { time_a:ta, time_b:tb, data, hora, grupo, fase, rodada, status:'agendado', gols_a:0, gols_b:0 };
-  const { error } = await sb.from('jogos').insert(payload);
-  if (error) { document.getElementById('modal-msg').textContent = 'Erro ao salvar.'; return; }
-  fecharModal();
-  carregarJogos();
+async function salvarJogo(){
+  const esporte=document.getElementById('f-esporte').value;
+  const ta=document.getElementById('f-time-a').value;
+  const tb=document.getElementById('f-time-b').value;
+  const data=document.getElementById('f-data').value;
+  const hora=document.getElementById('f-hora').value;
+  const grupo=document.getElementById('f-grupo').value;
+  const fase=document.getElementById('f-fase').value;
+  const rodada=fase==='eliminatoria'?document.getElementById('f-rodada').value:null;
+  if(!ta||!tb||!data||!hora){document.getElementById('modal-msg').textContent='Preencha todos os campos.';return;}
+  if(ta===tb){document.getElementById('modal-msg').textContent='Os times devem ser diferentes.';return;}
+  const {error}=await sb.from('jogos').insert({time_a:ta,time_b:tb,data,hora,grupo,fase,rodada,esporte,status:'agendado',gols_a:0,gols_b:0});
+  if(error){document.getElementById('modal-msg').textContent='Erro ao salvar: '+error.message;return;}
+  fecharModal(); carregarJogos();
 }
 </script>
 </body>
